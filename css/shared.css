@@ -1,7 +1,17 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap');
+
 :root {
-  /* ─ EXACT LOGO COLORS ─ */
+  /* TYPOGRAPHY */
+  --font-body: 'Barlow', sans-serif;
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-ui: 'Barlow Condensed', sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.5;
+
+  /* EXACT LOGO COLORS */
   /* Metallic Silver Gradient */
   --silver-light: #E6E6E6;
   --silver-mid: #B3B3B3;
@@ -12,40 +22,73 @@
   --red-mid: #CC0000;
   --red-dark: #800000;
 
-  /* ─ PRIMARY GRADIENTS (From Logo) ─ */
+  /* PRIMARY GRADIENTS (From Logo) */
   --gradient-silver: linear-gradient(135deg, #E6E6E6 0%, #B3B3B3 50%, #4D4D4D 100%);
   --gradient-red: linear-gradient(135deg, #FF1A1A 0%, #CC0000 50%, #800000 100%);
 
-  /* ─ LEGACY COMPATIBILITY ─ */
+  /* LEGACY COMPATIBILITY */
   --chrome: var(--gradient-silver);
   --red: #CC0000;
   --red-dim: rgba(255,26,26,0.15);
   --silver: #B3B3B3;
 
-  /* ─ NEUTRALS & ACCENTS ─ */
+  /* NEUTRALS & ACCENTS */
   --black: #000000;
   --dark: #0A0A0A;
   --dark2: #111111;
   --dark3: #161616;
   --white: #FFFFFF;
 
-  /* ─ GLOW EFFECTS (Updated to Red-Bright) ─ */
+  /* GLOW EFFECTS (Updated to Red-Bright) */
   --glow: 0 0 30px rgba(255,26,26,0.5);
   --glow-sm: 0 0 15px rgba(255,26,26,0.4);
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
   background: var(--black);
   color: var(--white);
-  font-family: 'Barlow', sans-serif;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: inherit;
   overflow-x: hidden;
   cursor: none;
 }
 
-/* FONTS */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap');
+body,
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
 
 /* CUSTOM CURSOR */
 .cursor {
@@ -79,11 +122,11 @@ body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height:
   margin-bottom: 0.5rem;
 }
 .divider-line { flex: 1; height: 1px; background: var(--red); max-width: 60px; }
-.divider span { color: var(--red); font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; }
+.divider span { color: var(--red); font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; }
 
 /* SECTION LABEL */
 .section-label {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: var(--font-ui);
   font-size: clamp(0.7rem, 1.5vw, 0.8rem);
   letter-spacing: 0.3em;
   color: var(--red);
@@ -95,7 +138,7 @@ body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height:
 
 /* SECTION HEADING */
 .section-heading {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-heading);
   font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 0.95;
   letter-spacing: 0.02em;
@@ -105,7 +148,7 @@ body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height:
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 14px 32px;
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: var(--font-ui);
   font-size: clamp(0.85rem, 1.5vw, 0.95rem);
   font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
   border: none; cursor: pointer; text-decoration: none;
@@ -147,16 +190,16 @@ nav.scrolled {
 }
 
 .nav-logo {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-heading);
   font-size: 1.6rem; letter-spacing: 0.05em;
   text-decoration: none; line-height: 1;
 }
 .nav-logo .mav { background: var(--chrome); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.nav-logo .motors { color: var(--red); font-size: 0.65rem; letter-spacing: 0.3em; display: block; margin-top: -4px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; -webkit-text-fill-color: var(--red); }
+.nav-logo .motors { color: var(--red); font-size: 0.65rem; letter-spacing: 0.3em; display: block; margin-top: -4px; font-family: var(--font-ui); font-weight: 700; -webkit-text-fill-color: var(--red); }
 
 .nav-links { display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem); list-style: none; }
 .nav-links a {
-  font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem;
+  font-family: var(--font-ui); font-size: 0.9rem;
   font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--silver); text-decoration: none;
   transition: color 0.2s; position: relative;
@@ -195,7 +238,8 @@ nav.scrolled {
 }
 .mobile-menu.open { transform: translateY(0); opacity: 1; }
 .mobile-menu a {
-  font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 8vw, 3rem);
+  font-family: var(--font-ui); font-size: clamp(1.15rem, 4vw, 1.5rem);
+  font-weight: 700;
   letter-spacing: 0.1em; color: var(--silver); text-decoration: none;
   padding: 1rem 2rem; width: 100%; text-align: center;
   border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -211,9 +255,9 @@ footer { background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); padd
 .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: clamp(2rem, 4vw, 3rem); margin-bottom: clamp(2rem, 4vw, 3rem); }
 
 .footer-brand {}
-.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.05em; text-decoration: none; line-height: 1; display: inline-block; margin-bottom: 1rem; }
+.footer-logo { font-family: var(--font-heading); font-size: 2rem; letter-spacing: 0.05em; text-decoration: none; line-height: 1; display: inline-block; margin-bottom: 1rem; }
 .footer-logo .mav { background: var(--chrome); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.footer-logo .motors { color: var(--red); font-size: 0.65rem; letter-spacing: 0.3em; display: block; margin-top: -4px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; -webkit-text-fill-color: var(--red); }
+.footer-logo .motors { color: var(--red); font-size: 0.65rem; letter-spacing: 0.3em; display: block; margin-top: -4px; font-family: var(--font-ui); font-weight: 700; -webkit-text-fill-color: var(--red); }
 .footer-tagline { font-size: 0.85rem; color: var(--silver-dark); line-height: 1.6; max-width: 240px; }
 .footer-socials { display: flex; gap: 10px; margin-top: 1.5rem; }
 .social-btn {
@@ -223,7 +267,7 @@ footer { background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); padd
 }
 .social-btn:hover { background: var(--gradient-red); border-color: var(--red-bright); color: var(--white); transform: translateY(-3px); }
 
-.footer-col-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1.25rem; }
+.footer-col-title { font-family: var(--font-ui); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1.25rem; }
 .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
 .footer-links a { font-size: 0.875rem; color: var(--silver-dark); text-decoration: none; transition: color 0.2s, padding-left 0.2s; display: inline-block; }
 .footer-links a:hover { color: var(--silver-light); padding-left: 6px; }

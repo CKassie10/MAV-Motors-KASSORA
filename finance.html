@@ -25,7 +25,6 @@
   }
 
   .page-hero h1 {
-    font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(2.5rem, 6vw, 4rem);
     line-height: 1.1; letter-spacing: 0.02em;
     margin-bottom: 1rem;
@@ -69,7 +68,7 @@
   }
 
   .finance-option h3 {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-ui);
     font-size: 1.1rem; font-weight: 700;
     letter-spacing: 0.05em; text-transform: uppercase;
     margin-bottom: 0.75rem; color: var(--silver-light);
@@ -92,7 +91,7 @@
 
   .rates-table th {
     background: var(--dark2); padding: 1rem;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-ui);
     font-size: 0.85rem; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--red); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -108,7 +107,7 @@
   .rate-badge {
     background: var(--red-dim); color: var(--red);
     padding: 4px 10px; border-radius: 2px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem;
+    font-family: var(--font-ui); font-size: 0.75rem;
     font-weight: 700; letter-spacing: 0.1em;
     text-transform: uppercase;
   }
@@ -131,7 +130,7 @@
   }
 
   .calc-label {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-ui);
     font-size: 0.85rem; font-weight: 700;
     letter-spacing: 0.15em; text-transform: uppercase;
     color: var(--silver-dark);
@@ -140,7 +139,7 @@
   .calc-input, .calc-select {
     background: var(--dark); border: 1px solid rgba(255,255,255,0.1);
     color: var(--white); padding: 12px 16px;
-    font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+    font-size: 1rem;
     transition: border-color 0.25s; outline: none;
   }
 
@@ -157,14 +156,14 @@
   }
 
   .calc-result-label {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-ui);
     font-size: 0.8rem; color: var(--silver-dark);
     letter-spacing: 0.1em; text-transform: uppercase;
     margin-bottom: 0.5rem;
   }
 
   .calc-result-value {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: 2.5rem; color: var(--red);
     line-height: 1;
   }
@@ -183,7 +182,7 @@
   }
 
   .faq-question h3 {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-ui);
     font-size: 1rem; font-weight: 700;
     letter-spacing: 0.05em; text-transform: uppercase;
     color: var(--silver-light);
@@ -220,8 +219,37 @@
   }
 
   .cta-section h3 {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: var(--font-heading);
     font-size: 2rem; margin-bottom: 1rem;
+  }
+
+  .content-heading {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .content-heading-lg {
+    font-size: 1.8rem;
+  }
+
+  .content-heading-tight {
+    margin-bottom: 0;
+  }
+
+  .content-heading-spaced {
+    margin-bottom: 2rem;
+  }
+
+  .content-copy {
+    color: var(--silver-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .content-note {
+    color: var(--silver-dark);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
   }
 
   .cta-section p {
@@ -317,7 +345,7 @@
 
   <!-- INTEREST RATES -->
   <div class="rates-section reveal">
-    <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 1.5rem;">COMPETITIVE RATES</h3>
+    <h3 class="content-heading content-heading-lg">COMPETITIVE RATES</h3>
     <table class="rates-table">
       <thead>
         <tr>
@@ -364,8 +392,8 @@
 
   <!-- CALCULATOR -->
   <div class="calculator-section reveal">
-    <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; margin-bottom: 0;">MONTHLY PAYMENT CALCULATOR</h3>
-    <p style="color: var(--silver-dark); margin-bottom: 1.5rem;">Estimate your monthly payment based on vehicle price, deposit, and term.</p>
+    <h3 class="content-heading content-heading-tight">MONTHLY PAYMENT CALCULATOR</h3>
+    <p class="content-copy">Estimate your monthly payment based on vehicle price, deposit, and term.</p>
 
     <div class="calculator-grid">
       <div class="calc-input-group">
@@ -394,13 +422,13 @@
     <div class="calc-result">
       <div class="calc-result-label">Estimated Monthly Payment</div>
       <div class="calc-result-value" id="monthlyPayment">R 7,500</div>
-      <p style="color: var(--silver-dark); font-size: 0.85rem; margin-top: 0.5rem;">*Excludes insurance and other fees</p>
+      <p class="content-note">*Excludes insurance and other fees</p>
     </div>
   </div>
 
   <!-- FAQ -->
   <div class="faq-section reveal">
-    <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; margin-bottom: 2rem;">FREQUENTLY ASKED QUESTIONS</h3>
+    <h3 class="content-heading content-heading-spaced">FREQUENTLY ASKED QUESTIONS</h3>
 
     <div class="faq-item">
       <div class="faq-question">

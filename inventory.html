@@ -4,113 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inventory — MAV Motors</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shared.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-  :root {
-    --red: #CC0000;
-    --red-bright: #FF1111;
-    --red-dim: rgba(204,0,0,0.15);
-    --silver: #C0C0C0;
-    --silver-light: #E8E8E8;
-    --silver-dark: #888888;
-    --black: #000000;
-    --dark: #0A0A0A;
-    --dark2: #111111;
-    --dark3: #161616;
-    --white: #FFFFFF;
-    --chrome: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 35%, #888 65%, #C0C0C0 100%);
-    --glow: 0 0 30px rgba(204,0,0,0.5);
-    --glow-sm: 0 0 15px rgba(204,0,0,0.4);
-  }
- 
-  html { scroll-behavior: smooth; }
-  body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; cursor: none; }
- 
-  /* CUSTOM CURSOR */
-  .cursor { position: fixed; width: 12px; height: 12px; background: var(--red); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s; }
-  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid rgba(204,0,0,0.6); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, width 0.2s, height 0.2s; }
-  body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height: 18px; background: var(--red-bright); }
- 
-  /* CHROME TEXT */
-  .chrome-text { background: var(--chrome); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
- 
-  /* SECTION LABEL */
-  .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(0.7rem, 1.5vw, 0.8rem); letter-spacing: 0.3em; color: var(--red); text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px; }
-  .section-label::before { content: ''; display: inline-block; width: 30px; height: 1px; background: var(--red); }
- 
-  /* SECTION HEADING */
-  .section-heading { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 0.95; letter-spacing: 0.02em; }
- 
-  /* BUTTONS */
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; font-family: 'Barlow Condensed', sans-serif; font-size: clamp(0.85rem, 1.5vw, 0.95rem); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: pointer; text-decoration: none; transition: all 0.3s ease; position: relative; overflow: hidden; min-height: 48px; }
-  .btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); transform: translateX(-100%); transition: transform 0.4s ease; }
-  .btn:hover::after { transform: translateX(100%); }
-  .btn-red { background: var(--red); color: var(--white); }
-  .btn-red:hover { background: var(--red-bright); box-shadow: var(--glow); transform: translateY(-2px); }
-  .btn-ghost { background: transparent; color: var(--red); border: 1.5px solid var(--red); }
-  .btn-ghost:hover { background: var(--red); color: var(--white); box-shadow: var(--glow); transform: translateY(-2px); }
- 
-  /* ===================== NAVBAR ===================== */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 clamp(1.5rem, 5vw, 4rem); height: 72px; display: flex; align-items: center; justify-content: space-between; transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s; }
-  nav.scrolled { background: rgba(0,0,0,0.92); backdrop-filter: blur(16px); box-shadow: 0 1px 0 rgba(204,0,0,0.3); }
-  .nav-logo { text-decoration: none; line-height: 1; }
-  .nav-links { display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem); list-style: none; }
-  .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--silver); text-decoration: none; transition: color 0.2s; position: relative; }
-  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
-  .nav-links a:hover { color: var(--white); }
-  .nav-links a:hover::after { transform: scaleX(1); }
-  .nav-cta { display: flex; align-items: center; gap: 1rem; }
- 
-  /* Hamburger */
-  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; min-height: 48px; align-items: center; justify-content: center; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: var(--silver); transition: all 0.3s ease; }
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--red); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--red); }
- 
-  /* Mobile Menu */
-  .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 0; z-index: 999; transform: translateY(-20px); opacity: 0; transition: transform 0.4s ease, opacity 0.4s ease; }
-  .mobile-menu.open { transform: translateY(0); opacity: 1; }
-  .mobile-menu a { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 8vw, 3rem); letter-spacing: 0.1em; color: var(--silver); text-decoration: none; padding: 1rem 2rem; width: 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.2s, background 0.2s; }
-  .mobile-menu a:hover { color: var(--red); background: rgba(204,0,0,0.05); }
-  .mobile-menu .mobile-cta { margin-top: 2rem; padding: 0 2rem; width: 100%; max-width: 320px; }
-  .mobile-menu .mobile-cta .btn { width: 100%; justify-content: center; border-bottom: none; }
- 
-  /* SCROLL REVEAL */
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
-  .reveal-delay-5 { transition-delay: 0.5s; }
- 
-  /* ===================== FOOTER ===================== */
-  footer { background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem) clamp(1.5rem, 3vw, 2rem); }
-  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: clamp(2rem, 4vw, 3rem); margin-bottom: clamp(2rem, 4vw, 3rem); }
-  .footer-tagline { font-size: 0.85rem; color: var(--silver-dark); line-height: 1.6; max-width: 240px; }
-  .footer-socials { display: flex; gap: 10px; margin-top: 1.5rem; }
-  .social-btn { width: 40px; height: 40px; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 0.9rem; color: var(--silver); transition: all 0.25s; }
-  .social-btn:hover { background: var(--red); border-color: var(--red); color: var(--white); transform: translateY(-3px); }
-  .footer-col-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1.25rem; }
-  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-  .footer-links a { font-size: 0.875rem; color: var(--silver-dark); text-decoration: none; transition: color 0.2s, padding-left 0.2s; display: inline-block; }
-  .footer-links a:hover { color: var(--silver-light); padding-left: 6px; }
-  .footer-bottom { padding-top: clamp(1.5rem, 3vw, 2rem); border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-  .footer-copy { font-size: 0.78rem; color: var(--silver-dark); }
-  .footer-bottom-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-  .footer-bottom-links a { font-size: 0.78rem; color: var(--silver-dark); text-decoration: none; transition: color 0.2s; }
-  .footer-bottom-links a:hover { color: var(--red); }
- 
   /* ===================== PAGE HERO ===================== */
   .page-hero { min-height: 50vh; background: linear-gradient(135deg, #1a0000, #CC0000 40%, #0a0a0a 100%); display: flex; align-items: center; justify-content: center; padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem); text-align: center; position: relative; overflow: hidden; }
   .page-hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(0,0,0,0.06) 30px, rgba(0,0,0,0.06) 60px); }
   .page-hero-content { position: relative; z-index: 1; max-width: 800px; }
-  .page-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; letter-spacing: 0.02em; margin-bottom: 1rem; }
+  .page-hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; letter-spacing: 0.02em; margin-bottom: 1rem; }
   .page-hero p { font-size: clamp(0.95rem, 2vw, 1.1rem); color: rgba(255,255,255,0.8); font-weight: 300; }
  
   /* ===================== INVENTORY SECTION ===================== */
@@ -122,14 +22,14 @@
  
   .inventory-controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 2rem; }
   .search-box { flex: 1; min-width: 200px; position: relative; }
-  .search-box input { width: 100%; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 16px; font-family: 'Barlow', sans-serif; font-size: 0.95rem; border-radius: 0; transition: border-color 0.25s; outline: none; }
+  .search-box input { width: 100%; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 16px; font-size: 1rem; border-radius: 0; transition: border-color 0.25s; outline: none; }
   .search-box input:focus { border-color: var(--red); box-shadow: 0 0 0 1px rgba(204,0,0,0.3); }
-  .sort-select { background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 16px; font-family: 'Barlow', sans-serif; font-size: 0.9rem; cursor: pointer; -webkit-appearance: none; appearance: none; transition: border-color 0.25s; outline: none; min-width: 150px; }
+  .sort-select { background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 16px; font-size: 1rem; cursor: pointer; -webkit-appearance: none; appearance: none; transition: border-color 0.25s; outline: none; min-width: 150px; }
   .sort-select:focus { border-color: var(--red); box-shadow: 0 0 0 1px rgba(204,0,0,0.3); }
   .sort-select option { background: var(--dark3); color: var(--white); }
  
   .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 2rem 0; }
-  .filter-tab { padding: 8px 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--silver); cursor: pointer; transition: all 0.25s; }
+  .filter-tab { padding: 8px 20px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--silver); cursor: pointer; transition: all 0.25s; }
   .filter-tab.active, .filter-tab:hover { background: var(--red); border-color: var(--red); color: var(--white); }
  
   .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2vw, 1.5rem); margin-bottom: 3rem; }
@@ -137,7 +37,7 @@
   .car-card { background: var(--dark3); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; position: relative; transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease; cursor: pointer; }
   .car-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(204,0,0,0.4); border-color: rgba(204,0,0,0.4); }
  
-  .car-badge { position: absolute; top: 12px; left: 12px; z-index: 2; background: var(--red); color: var(--white); font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
+  .car-badge { position: absolute; top: 12px; left: 12px; z-index: 2; background: var(--red); color: var(--white); font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
  
   .car-img-placeholder { width: 100%; height: 200px; background: linear-gradient(135deg, #1a1a1a 0%, #111 50%, #0d0000 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
   .car-img-placeholder::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(204,0,0,0.02) 20px, rgba(204,0,0,0.02) 40px); }
@@ -147,18 +47,18 @@
   .car-silhouette { width: 80%; opacity: 0.15; }
  
   .car-body { padding: clamp(1rem, 2vw, 1.25rem); }
-  .car-make { font-size: 0.7rem; color: var(--red); letter-spacing: 0.2em; text-transform: uppercase; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; }
-  .car-model { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 2.5vw, 1.6rem); letter-spacing: 0.05em; margin: 2px 0 8px; }
+  .car-make { font-size: 0.7rem; color: var(--red); letter-spacing: 0.2em; text-transform: uppercase; font-family: var(--font-ui); font-weight: 600; }
+  .car-model { font-family: var(--font-heading); font-size: clamp(1.3rem, 2.5vw, 1.6rem); letter-spacing: 0.05em; margin: 2px 0 8px; }
   .car-specs { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-  .car-spec { font-size: 0.75rem; color: var(--silver-dark); font-family: 'Barlow Condensed', sans-serif; display: flex; align-items: center; gap: 4px; }
+  .car-spec { font-size: 0.75rem; color: var(--silver-dark); font-family: var(--font-ui); display: flex; align-items: center; gap: 4px; }
   .car-spec::before { content: '◆'; font-size: 0.4rem; color: var(--red); }
   .car-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
-  .car-price { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.3rem, 2.5vw, 1.6rem); color: var(--red); letter-spacing: 0.03em; }
+  .car-price { font-family: var(--font-heading); font-size: clamp(1.3rem, 2.5vw, 1.6rem); color: var(--red); letter-spacing: 0.03em; }
   .car-price-sub { font-size: 0.65rem; color: var(--silver-dark); letter-spacing: 0.1em; }
   .car-btn { padding: 8px 18px; font-size: 0.75rem; min-height: 40px; }
  
   .pagination { display: flex; justify-content: center; gap: 0.5rem; margin: 3rem 0; }
-  .pagination-btn { padding: 10px 14px; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--silver); font-family: 'Barlow Condensed', sans-serif; cursor: pointer; transition: all 0.25s; }
+  .pagination-btn { padding: 10px 14px; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--silver); font-family: var(--font-ui); cursor: pointer; transition: all 0.25s; }
   .pagination-btn:hover, .pagination-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
  
   .inventory-cta { text-align: center; margin-top: 2rem; }
@@ -170,12 +70,6 @@
     .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
   }
   @media (max-width: 768px) {
-    body { cursor: auto; }
-    .cursor, .cursor-ring { display: none; }
-    .nav-links, .nav-cta { display: none; }
-    .hamburger { display: flex; }
-    .mobile-menu { display: flex; }
-    .mobile-menu.open { display: flex; }
     .inventory-controls { flex-direction: column; }
     .search-box { width: 100%; }
     .sort-select { width: 100%; }
