@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — MAV Motors</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+  /* PAGE HERO */
+  .page-hero {
+    min-height: 50vh; background: linear-gradient(135deg, #1a0000, #CC0000 40%, #0a0a0a 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    text-align: center; position: relative; overflow: hidden;
+  }
+
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(0,0,0,0.06) 30px, rgba(0,0,0,0.06) 60px);
+  }
+
+  .page-hero-content {
+    position: relative; z-index: 1;
+    max-width: 800px;
+  }
+
+  .page-hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1; letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .page-hero p {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+  }
+
+  /* CONTACT SECTION */
+  #contact {
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem);
+    background: var(--dark);
+  }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem); align-items: start;
+  }
+
+  /* CONTACT INFO */
+  .contact-info {}
+
+  .contact-item {
+    display: flex; gap: 1rem; margin-bottom: 2rem; align-items: flex-start;
+  }
+
+  .contact-icon {
+    width: 44px; height: 44px; background: var(--red-dim);
+    border: 1px solid rgba(204,0,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0; margin-top: 2px;
+  }
+
+  .contact-item-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.85rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--silver-dark); margin-bottom: 4px;
+  }
+
+  .contact-item-val {
+    font-size: 0.95rem; color: var(--silver-light); line-height: 1.6;
+  }
+
+  .contact-item-val a {
+    color: var(--red); text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-item-val a:hover {
+    color: var(--red-bright);
+  }
+
+  .hours-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.5rem; margin-top: 0.5rem;
+  }
+
+  .hours-day {
+    font-size: 0.8rem; color: var(--silver-dark);
+  }
+
+  .hours-time {
+    font-size: 0.8rem; color: var(--silver-light);
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+  }
+
+  .contact-socials {
+    display: flex; gap: 0.75rem; margin-top: 2rem;
+  }
+
+  .contact-social-btn {
+    width: 44px; height: 44px;
+    background: var(--dark3); border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1rem;
+    color: var(--silver); transition: all 0.25s;
+  }
+
+  .contact-social-btn:hover {
+    background: var(--red); border-color: var(--red);
+    color: var(--white); transform: translateY(-3px);
+  }
+
+  /* CONTACT FORM */
+  .contact-form-wrap {}
+
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+
+  .form-group {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .form-group.full {
+    grid-column: 1 / -1;
+  }
+
+  .form-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--silver-dark);
+  }
+
+  .form-input, .form-select, .form-textarea {
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 13px 16px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 1px rgba(204,0,0,0.3);
+  }
+
+  .form-textarea {
+    resize: vertical; min-height: 140px;
+  }
+
+  .form-select option {
+    background: var(--dark3);
+  }
+
+  .form-submit {
+    margin-top: 1.5rem;
+  }
+
+  .form-submit .btn {
+    width: 100%; justify-content: center;
+  }
+
+  .form-success {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    color: #4CAF50;
+    padding: 1rem;
+    border-radius: 0;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    display: none;
+  }
+
+  .form-success.show {
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .contact-item { margin-bottom: 1.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    .page-hero h1 { font-size: clamp(2rem, 10vw, 3rem); }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:52px; width:auto; display:block;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="inventory.html">Inventory</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="finance.html">Finance</a></li>
+    <li><a href="index.html#reviews">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="contact.html" class="btn btn-red">Book a Test Drive</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="inventory.html" class="mobile-nav-link">Inventory</a>
+  <a href="index.html#about" class="mobile-nav-link">About</a>
+  <a href="finance.html" class="mobile-nav-link">Finance</a>
+  <a href="index.html#reviews" class="mobile-nav-link">Reviews</a>
+  <a href="contact.html" class="mobile-nav-link">Contact</a>
+  <div class="mobile-cta">
+    <a href="contact.html" class="btn btn-red">Book a Test Drive</a>
+  </div>
+</div>
+
+<!-- ===================== PAGE HERO ===================== -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <h1>GET IN TOUCH</h1>
+    <p>We'd love to hear from you. Reach out to us today.</p>
+  </div>
+</div>
+
+<!-- ===================== CONTACT SECTION ===================== -->
+<section id="contact">
+  <div class="contact-grid">
+    <!-- CONTACT INFO -->
+    <div class="contact-info reveal">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-item-title">Location</div>
+          <div class="contact-item-val">123 Umgeni Road<br>Durban, KwaZulu-Natal 4001<br>South Africa</div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-item-title">Phone</div>
+          <div class="contact-item-val">
+            <a href="tel:+27310000000">+27 31 000 0000</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">💬</div>
+        <div>
+          <div class="contact-item-title">WhatsApp</div>
+          <div class="contact-item-val">
+            <a href="https://wa.me/27810000000">+27 81 000 0000</a><br>
+            <small style="color: var(--silver-dark);">Chat with us Monday - Friday, 8am - 5:30pm</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div>
+          <div class="contact-item-title">Email</div>
+          <div class="contact-item-val">
+            <a href="mailto:info@mavmotors.co.za">info@mavmotors.co.za</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-item-title">Trading Hours</div>
+          <div class="hours-grid">
+            <div class="hours-day">Mon – Fri</div><div class="hours-time">08:00 – 17:30</div>
+            <div class="hours-day">Saturday</div><div class="hours-time">08:00 – 14:00</div>
+            <div class="hours-day">Sunday</div><div class="hours-time">By Appointment</div>
+            <div class="hours-day">Public Holidays</div><div class="hours-time">Closed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-socials">
+        <a href="#" class="contact-social-btn" aria-label="Facebook">f</a>
+        <a href="#" class="contact-social-btn" aria-label="Instagram">📷</a>
+        <a href="https://wa.me/27810000000" class="contact-social-btn" aria-label="WhatsApp">W</a>
+        <a href="#" class="contact-social-btn" aria-label="LinkedIn">in</a>
+      </div>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="contact-form-wrap reveal reveal-delay-2">
+      <div class="form-success" id="formSuccess">
+        <strong>✓ Message Sent!</strong> We'll get back to you soon.
+      </div>
+
+      <div class="form-grid" id="contactForm">
+        <div class="form-group">
+          <label class="form-label">First Name *</label>
+          <input type="text" class="form-input" name="firstName" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name *</label>
+          <input type="text" class="form-input" name="lastName" placeholder="Doe" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email *</label>
+          <input type="email" class="form-input" name="email" placeholder="john@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone *</label>
+          <input type="tel" class="form-input" name="phone" placeholder="083 000 0000" required>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">I'm Interested In *</label>
+          <select class="form-select" name="interest" required>
+            <option value="">Select an option</option>
+            <option value="browsing">Browsing Inventory</option>
+            <option value="test-drive">Booking a Test Drive</option>
+            <option value="finance">Finance Application</option>
+            <option value="trade-in">Trade-In Valuation</option>
+            <option value="service">After-Sale Service</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" name="message" placeholder="Tell us what you're looking for..."></textarea>
+        </div>
+        <div class="form-group full form-submit">
+          <button type="submit" class="btn btn-red" id="submitBtn">Send Message ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="footer-logo">
+        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
+      </a>
+      <p class="footer-tagline">Elevating the automotive experience in Durban since 2010. Premium vehicles. Exceptional service. Every time.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" aria-label="Facebook">f</a>
+        <a href="#" class="social-btn" aria-label="Instagram">in</a>
+        <a href="#" class="social-btn" aria-label="WhatsApp">W</a>
+        <a href="#" class="social-btn" aria-label="TikTok">T</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Inventory</div>
+      <ul class="footer-links">
+        <li><a href="inventory.html">All Vehicles</a></li>
+        <li><a href="inventory.html">Sedans</a></li>
+        <li><a href="inventory.html">SUVs & Crossovers</a></li>
+        <li><a href="inventory.html">Luxury Vehicles</a></li>
+        <li><a href="inventory.html">Sports Cars</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="finance.html">Finance</a></li>
+        <li><a href="contact.html">Trade-In</a></li>
+        <li><a href="contact.html">Warranty</a></li>
+        <li><a href="contact.html">Inspection</a></li>
+        <li><a href="contact.html">Test Drive</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="index.html#about">About MAV Motors</a></li>
+        <li><a href="index.html#reviews">Testimonials</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 MAV Motors. All rights reserved. — Elevate Every Mile.</div>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">POPIA Compliance</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+<script>
+  // Contact form handling
+  const contactForm = document.getElementById('contactForm');
+  const formSuccess = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('submitBtn');
+
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Get form data
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData);
+
+    // Validate required fields
+    if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.interest) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // Simulate form submission
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    // Simulate delay
+    setTimeout(() => {
+      // Reset form
+      contactForm.reset();
+
+      // Show success message
+      formSuccess.classList.add('show');
+
+      // Reset button
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        formSuccess.classList.remove('show');
+      }, 5000);
+    }, 1500);
+  });
+</script>
+</body>
+</html>

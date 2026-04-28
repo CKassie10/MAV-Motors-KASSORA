@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAV Motors — Elevate Every Mile</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+  /* HERO SECTION */
+  #hero {
+    min-height: 100vh; position: relative; display: flex; align-items: center;
+    overflow: hidden; padding: clamp(6rem, 10vw, 8rem) clamp(1.5rem, 6vw, 6rem) clamp(4rem, 8vw, 6rem);
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 80% 40%, rgba(204,0,0,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 70% at 10% 80%, rgba(204,0,0,0.12) 0%, transparent 50%),
+      linear-gradient(160deg, #0A0A0A 0%, #000 60%, #0D0000 100%);
+  }
+
+  /* Speed lines */
+  .speed-lines {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 40%; z-index: 1;
+    overflow: hidden; pointer-events: none;
+  }
+  .speed-line {
+    position: absolute; height: 1px; background: linear-gradient(90deg, transparent, var(--red), transparent);
+    animation: speedLine 3s infinite linear;
+    opacity: 0;
+  }
+  @keyframes speedLine {
+    0% { transform: translateX(-100%); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.2; }
+    100% { transform: translateX(200%); opacity: 0; }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(204,0,0,0.1); border: 1px solid rgba(204,0,0,0.3);
+    padding: 6px 16px; margin-bottom: 1.5rem;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--red);
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8.5rem);
+    line-height: 0.9; letter-spacing: 0.02em; margin-bottom: 1.5rem;
+  }
+  .hero-title .line1 { display: block; }
+  .hero-title .line2 { display: block; color: var(--red); }
+  .hero-title .line3 { display: block; background: var(--chrome); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .hero-sub {
+    font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--silver);
+    font-weight: 300; line-height: 1.6; max-width: 500px; margin-bottom: 2.5rem;
+  }
+
+  .hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
+
+  .hero-stats {
+    display: flex; gap: clamp(1.5rem, 4vw, 3rem); flex-wrap: wrap;
+    padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-stat-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 3vw, 2.5rem);
+    background: var(--chrome); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1;
+  }
+  .hero-stat-label { font-size: 0.75rem; color: var(--silver-dark); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+
+  /* Scroll indicator */
+  .scroll-cue {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em;
+    color: var(--silver-dark); text-transform: uppercase; animation: bounce 2s infinite;
+  }
+  .scroll-cue-line { width: 1px; height: 40px; background: linear-gradient(180deg, var(--red), transparent); }
+  @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+  /* STATS BAR */
+  #stats {
+    background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); border-bottom: 1px solid rgba(204,0,0,0.3);
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+  }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .stat-item { text-align: center; padding: 1rem; position: relative; }
+  .stat-item:not(:last-child)::after {
+    content: ''; position: absolute; right: 0; top: 20%; bottom: 20%;
+    width: 1px; background: rgba(255,255,255,0.08);
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+    background: var(--chrome); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    display: block; line-height: 1;
+  }
+  .stat-label { font-size: clamp(0.7rem, 1.5vw, 0.8rem); color: var(--silver-dark); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px; font-family: 'Barlow Condensed', sans-serif; }
+
+  /* ABOUT SECTION */
+  #about {
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem);
+    background: var(--black);
+  }
+
+  .section-header { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .section-header.centered { text-align: center; }
+  .section-header.centered .section-label { justify-content: center; }
+  .section-header.centered .section-label::before { display: none; }
+
+  .about-content {
+    max-width: 900px; margin: 0 auto;
+  }
+
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 4vw, 3rem); align-items: center;
+  }
+
+  .about-text h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .about-text p {
+    font-size: 0.95rem;
+    color: var(--silver-dark);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-highlight {
+    background: var(--dark3);
+    border-left: 3px solid var(--red);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .about-highlight strong {
+    color: var(--red);
+  }
+
+  /* REVIEWS/TESTIMONIALS */
+  #reviews {
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem);
+    background: var(--dark);
+  }
+
+  .testimonials-wrapper { position: relative; }
+  .testimonials-track {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .testimonial-card {
+    background: var(--dark3); border: 1px solid rgba(255,255,255,0.06);
+    padding: clamp(1.5rem, 3vw, 2rem); position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .testimonial-card:hover { border-color: rgba(204,0,0,0.3); transform: translateY(-4px); }
+
+  .quote-mark { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 0.8; color: var(--red); opacity: 0.3; margin-bottom: -0.5rem; }
+  .testimonial-text { font-size: clamp(0.875rem, 1.5vw, 0.95rem); color: var(--silver); line-height: 1.7; margin-bottom: 1.5rem; }
+  .testimonial-stars { color: var(--red); font-size: 0.875rem; letter-spacing: 2px; margin-bottom: 1rem; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06); }
+  .author-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--red), #800000); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--white); flex-shrink: 0; }
+  .author-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; }
+  .author-location { font-size: 0.75rem; color: var(--silver-dark); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(4, 1fr); }
+    .about-grid { grid-template-columns: 1fr; }
+    .testimonials-track { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .hero-buttons .btn { width: 100%; justify-content: center; }
+    .hero-buttons { flex-direction: column; }
+    .hero-stats { gap: 1.5rem; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-item:nth-child(2)::after { display: none; }
+
+    .about-grid { grid-template-columns: 1fr; }
+
+    .testimonials-track {
+      grid-template-columns: 1fr;
+      display: flex; overflow-x: scroll; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; gap: 1rem; padding-bottom: 1rem;
+      scrollbar-width: none;
+    }
+    .testimonials-track::-webkit-scrollbar { display: none; }
+    .testimonial-card { min-width: 85vw; scroll-snap-align: start; flex-shrink: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(3rem, 14vw, 5rem); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:52px; width:auto; display:block;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="inventory.html">Inventory</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="finance.html">Finance</a></li>
+    <li><a href="index.html#reviews">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="contact.html" class="btn btn-red">Book a Test Drive</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="inventory.html" class="mobile-nav-link">Inventory</a>
+  <a href="index.html#about" class="mobile-nav-link">About</a>
+  <a href="finance.html" class="mobile-nav-link">Finance</a>
+  <a href="index.html#reviews" class="mobile-nav-link">Reviews</a>
+  <a href="contact.html" class="mobile-nav-link">Contact</a>
+  <div class="mobile-cta">
+    <a href="contact.html" class="btn btn-red">Book a Test Drive</a>
+  </div>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="speed-lines" id="speedLines"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">🔴 Durban's Premier Auto Dealer</div>
+    <h1 class="hero-title">
+      <span class="line1">ELEVATE</span>
+      <span class="line2">EVERY</span>
+      <span class="line3 chrome-text">MILE.</span>
+    </h1>
+    <p class="hero-sub">Premium pre-owned and new vehicles. Uncompromising quality, exceptional service — Durban's finest automotive experience.</p>
+    <div class="hero-buttons">
+      <a href="inventory.html" class="btn btn-red">Browse Inventory ›</a>
+      <a href="contact.html" class="btn btn-outline">Book a Test Drive</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num" data-count="500">0</div>
+        <div class="hero-stat-label">Vehicles In Stock</div>
+      </div>
+      <div>
+        <div class="hero-stat-num" data-count="15">0</div>
+        <div class="hero-stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="hero-stat-num" data-count="10000">0</div>
+        <div class="hero-stat-label">Happy Clients</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="scroll-cue-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ===================== STATS BAR ===================== -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <span class="stat-num" data-count="500">0+</span>
+      <div class="stat-label">Vehicles In Stock</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <span class="stat-num" data-count="15">0</span>
+      <div class="stat-label">Years in Business</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <span class="stat-num" data-count="10000">0+</span>
+      <div class="stat-label">Happy Clients</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <span class="stat-num">#1</span>
+      <div class="stat-label">Dealer in Durban</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about">
+  <div class="section-header centered reveal">
+    <div class="section-label" style="justify-content:center;">About MAV Motors</div>
+    <h2 class="section-heading chrome-text">WHO WE ARE</h2>
+  </div>
+
+  <div class="about-content">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h3>Durban's Premier Automotive Experience</h3>
+        <p>Since 2010, MAV Motors has been Durban's trusted name in premium automotive retail. We don't just sell cars — we craft journeys.</p>
+        <p>Every vehicle in our inventory undergoes our rigorous 150-point inspection standard. We partner with every major bank and finance house to ensure competitive rates and flexible terms for everyone.</p>
+      </div>
+      <div class="about-highlight reveal reveal-delay-1">
+        <strong style="color: var(--red); font-size: 1.2rem;">OUR MISSION</strong>
+        <p style="margin-top: 1rem;">To deliver uncompromising quality, transparent pricing, and exceptional service — making every purchase a stress-free, confidence-building experience.</p>
+        <p style="margin-top: 1rem;"><strong>150-Point Inspections • Zero Pressure • Same-Day Finance • Trade-In Welcome • Warranty Included</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REVIEWS/TESTIMONIALS ===================== -->
+<section id="reviews">
+  <div class="section-header centered reveal">
+    <div class="section-label" style="justify-content:center;">Client Reviews</div>
+    <h2 class="section-heading chrome-text">WHAT OUR CLIENTS SAY</h2>
+  </div>
+  <div class="testimonials-wrapper reveal">
+    <div class="testimonials-track">
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">MAV Motors made buying my BMW the most stress-free experience I've ever had. Transparent pricing, no pressure, and they sorted my finance in under an hour. I'll never go anywhere else.</p>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">TN</div>
+          <div>
+            <div class="author-name">Thabo Nkosi</div>
+            <div class="author-location">Durban North</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">I traded in my old Corolla and walked out with a Fortuner same day. The team was honest about every detail and the price was better than anywhere else I checked. Absolute legends.</p>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">SP</div>
+          <div>
+            <div class="author-name">Siphokazi Petersen</div>
+            <div class="author-location">Umhlanga</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">The Porsche I bought from MAV was immaculate — better than advertised. Their after-sale support is incredible. This is how car dealerships should operate. 10/10 recommend.</p>
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">MR</div>
+          <div>
+            <div class="author-name">Mohammed Rajah</div>
+            <div class="author-location">Westville</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="footer-logo">
+        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
+      </a>
+      <p class="footer-tagline">Elevating the automotive experience in Durban since 2010. Premium vehicles. Exceptional service. Every time.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" aria-label="Facebook">f</a>
+        <a href="#" class="social-btn" aria-label="Instagram">in</a>
+        <a href="#" class="social-btn" aria-label="WhatsApp">W</a>
+        <a href="#" class="social-btn" aria-label="TikTok">T</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Inventory</div>
+      <ul class="footer-links">
+        <li><a href="inventory.html">All Vehicles</a></li>
+        <li><a href="inventory.html">Sedans</a></li>
+        <li><a href="inventory.html">SUVs & Crossovers</a></li>
+        <li><a href="inventory.html">Luxury Vehicles</a></li>
+        <li><a href="inventory.html">Sports Cars</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="finance.html">Finance</a></li>
+        <li><a href="contact.html">Trade-In</a></li>
+        <li><a href="contact.html">Warranty</a></li>
+        <li><a href="contact.html">Inspection</a></li>
+        <li><a href="contact.html">Test Drive</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="index.html#about">About MAV Motors</a></li>
+        <li><a href="index.html#reviews">Testimonials</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 MAV Motors. All rights reserved. — Elevate Every Mile.</div>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">POPIA Compliance</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+<script>
+  // Speed lines animation
+  const speedContainer = document.getElementById('speedLines');
+  if (speedContainer) {
+    for (let i = 0; i < 12; i++) {
+      const line = document.createElement('div');
+      line.className = 'speed-line';
+      line.style.cssText = `
+        bottom: ${Math.random() * 90}%;
+        width: ${80 + Math.random() * 200}px;
+        animation-delay: ${Math.random() * 4}s;
+        animation-duration: ${2 + Math.random() * 3}s;
+        opacity: ${0.2 + Math.random() * 0.4};
+      `;
+      speedContainer.appendChild(line);
+    }
+  }
+</script>
+</body>
+</html>

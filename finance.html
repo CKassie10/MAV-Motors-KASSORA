@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance — MAV Motors</title>
+<link rel="stylesheet" href="css/shared.css">
+<style>
+  /* PAGE HERO */
+  .page-hero {
+    min-height: 50vh; background: linear-gradient(135deg, #1a0000, #CC0000 40%, #0a0a0a 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    text-align: center; position: relative; overflow: hidden;
+  }
+
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(0,0,0,0.06) 30px, rgba(0,0,0,0.06) 60px);
+  }
+
+  .page-hero-content {
+    position: relative; z-index: 1;
+    max-width: 800px;
+  }
+
+  .page-hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1; letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .page-hero p {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+  }
+
+  /* FINANCE SECTION */
+  #finance { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem); background: var(--dark); }
+
+  .section-header { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .section-header.centered { text-align: center; }
+  .section-header.centered .section-label { justify-content: center; }
+  .section-header.centered .section-label::before { display: none; }
+
+  /* OPTIONS GRID */
+  .finance-options {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 3vw, 2rem); margin: 3rem 0;
+  }
+
+  .finance-option {
+    background: var(--dark3); border: 1px solid rgba(255,255,255,0.06);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .finance-option:hover {
+    border-color: rgba(204,0,0,0.3); transform: translateY(-4px);
+  }
+
+  .finance-option-icon {
+    width: 52px; height: 52px;
+    background: var(--red-dim); border: 1px solid rgba(204,0,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem; font-size: 1.4rem;
+  }
+
+  .finance-option h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 0.75rem; color: var(--silver-light);
+  }
+
+  .finance-option p {
+    font-size: 0.875rem; color: var(--silver-dark);
+    line-height: 1.65;
+  }
+
+  /* RATES TABLE */
+  .rates-section {
+    margin: 3rem 0;
+  }
+
+  .rates-table {
+    width: 100%; border-collapse: collapse;
+    background: var(--dark3); border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .rates-table th {
+    background: var(--dark2); padding: 1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--red); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .rates-table td {
+    padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.9rem;
+  }
+
+  .rates-table tr:hover { background: var(--dark2); }
+
+  .rate-badge {
+    background: var(--red-dim); color: var(--red);
+    padding: 4px 10px; border-radius: 2px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem;
+    font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* CALCULATOR */
+  .calculator-section {
+    margin: 3rem 0;
+    background: var(--dark3);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .calculator-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; margin: 1.5rem 0;
+  }
+
+  .calc-input-group {
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+
+  .calc-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--silver-dark);
+  }
+
+  .calc-input, .calc-select {
+    background: var(--dark); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white); padding: 12px 16px;
+    font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+    transition: border-color 0.25s; outline: none;
+  }
+
+  .calc-input:focus, .calc-select:focus {
+    border-color: var(--red); box-shadow: 0 0 0 1px rgba(204,0,0,0.3);
+  }
+
+  .calc-select option { background: var(--dark); }
+
+  .calc-result {
+    background: var(--dark); border: 1px solid rgba(204,0,0,0.3);
+    padding: 1.5rem; margin-top: 1rem;
+    text-align: center;
+  }
+
+  .calc-result-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; color: var(--silver-dark);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .calc-result-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--red);
+    line-height: 1;
+  }
+
+  /* FAQ */
+  .faq-section { margin: 3rem 0; }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 0;
+  }
+
+  .faq-question {
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; user-select: none;
+  }
+
+  .faq-question h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--silver-light);
+    flex: 1;
+  }
+
+  .faq-toggle {
+    font-size: 1.5rem; color: var(--red);
+    transition: transform 0.3s;
+  }
+
+  .faq-question:hover h3 { color: var(--red); }
+
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin-top: 0;
+  }
+
+  .faq-answer.open {
+    max-height: 500px;
+  }
+
+  .faq-answer p {
+    font-size: 0.9rem; color: var(--silver-dark);
+    line-height: 1.7;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    background: var(--dark3); border: 1px solid rgba(255,255,255,0.06);
+    padding: clamp(2rem, 4vw, 3rem); margin: 3rem 0;
+    text-align: center;
+  }
+
+  .cta-section h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    color: var(--silver-dark); margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    .finance-options { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .calculator-grid { grid-template-columns: 1fr; }
+    .rates-table { font-size: 0.85rem; }
+    .rates-table td, .rates-table th { padding: 0.75rem; }
+  }
+
+  @media (max-width: 480px) {
+    .page-hero h1 { font-size: clamp(2rem, 10vw, 3rem); }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:52px; width:auto; display:block;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="inventory.html">Inventory</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="finance.html">Finance</a></li>
+    <li><a href="index.html#reviews">Reviews</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="contact.html" class="btn btn-red">Book a Test Drive</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="inventory.html" class="mobile-nav-link">Inventory</a>
+  <a href="index.html#about" class="mobile-nav-link">About</a>
+  <a href="finance.html" class="mobile-nav-link">Finance</a>
+  <a href="index.html#reviews" class="mobile-nav-link">Reviews</a>
+  <a href="contact.html" class="mobile-nav-link">Contact</a>
+  <div class="mobile-cta">
+    <a href="contact.html" class="btn btn-red">Book a Test Drive</a>
+  </div>
+</div>
+
+<!-- ===================== PAGE HERO ===================== -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <h1>DRIVE YOUR WAY</h1>
+    <p>Flexible financing solutions tailored to your budget. Quick approvals, competitive rates.</p>
+  </div>
+</div>
+
+<!-- ===================== FINANCE SECTION ===================== -->
+<section id="finance">
+  <div class="section-header centered reveal">
+    <div class="section-label" style="justify-content:center;">Finance Options</div>
+    <h2 class="section-heading chrome-text">YOUR OPTIONS</h2>
+  </div>
+
+  <!-- FINANCE OPTIONS -->
+  <div class="finance-options">
+    <div class="finance-option reveal">
+      <div class="finance-option-icon">🏦</div>
+      <h3>Bank Approved</h3>
+      <p>We work with all major banks to get you the best rates. Pre-approval available.</p>
+    </div>
+    <div class="finance-option reveal reveal-delay-1">
+      <div class="finance-option-icon">📊</div>
+      <h3>Flexible Terms</h3>
+      <p>Choose from flexible payment terms. 36, 48, 60, or 72-month options available.</p>
+    </div>
+    <div class="finance-option reveal reveal-delay-2">
+      <div class="finance-option-icon">⚡</div>
+      <h3>Quick Process</h3>
+      <p>Fast approvals with minimal paperwork. Get financed in under an hour.</p>
+    </div>
+  </div>
+
+  <!-- INTEREST RATES -->
+  <div class="rates-section reveal">
+    <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 1.5rem;">COMPETITIVE RATES</h3>
+    <table class="rates-table">
+      <thead>
+        <tr>
+          <th>Vehicle Type</th>
+          <th>From (APR)</th>
+          <th>Term</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pre-Owned Vehicles</td>
+          <td>5.9%</td>
+          <td>36 - 72 months</td>
+          <td><span class="rate-badge">Available</span></td>
+        </tr>
+        <tr>
+          <td>New Vehicles</td>
+          <td>4.9%</td>
+          <td>36 - 84 months</td>
+          <td><span class="rate-badge">Available</span></td>
+        </tr>
+        <tr>
+          <td>Luxury Vehicles</td>
+          <td>6.5%</td>
+          <td>36 - 60 months</td>
+          <td><span class="rate-badge">Available</span></td>
+        </tr>
+        <tr>
+          <td>Trade-In Program</td>
+          <td>Special Rates</td>
+          <td>Flexible</td>
+          <td><span class="rate-badge">Approved</span></td>
+        </tr>
+        <tr>
+          <td>Bad Credit Options</td>
+          <td>8.9%</td>
+          <td>36 - 60 months</td>
+          <td><span class="rate-badge">Available</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="calculator-section reveal">
+    <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; margin-bottom: 0;">MONTHLY PAYMENT CALCULATOR</h3>
+    <p style="color: var(--silver-dark); margin-bottom: 1.5rem;">Estimate your monthly payment based on vehicle price, deposit, and term.</p>
+
+    <div class="calculator-grid">
+      <div class="calc-input-group">
+        <label class="calc-label">Vehicle Price (R)</label>
+        <input type="number" id="vehiclePrice" class="calc-input" value="500000" min="50000" step="10000">
+      </div>
+      <div class="calc-input-group">
+        <label class="calc-label">Deposit Amount (R)</label>
+        <input type="number" id="depositAmount" class="calc-input" value="100000" min="0" step="10000">
+      </div>
+      <div class="calc-input-group">
+        <label class="calc-label">Loan Term (Months)</label>
+        <select id="loanTerm" class="calc-select">
+          <option value="36">36 Months</option>
+          <option value="48">48 Months</option>
+          <option value="60" selected>60 Months</option>
+          <option value="72">72 Months</option>
+        </select>
+      </div>
+      <div class="calc-input-group">
+        <label class="calc-label">Interest Rate (APR %)</label>
+        <input type="number" id="interestRate" class="calc-input" value="6.5" min="0" step="0.1">
+      </div>
+    </div>
+
+    <div class="calc-result">
+      <div class="calc-result-label">Estimated Monthly Payment</div>
+      <div class="calc-result-value" id="monthlyPayment">R 7,500</div>
+      <p style="color: var(--silver-dark); font-size: 0.85rem; margin-top: 0.5rem;">*Excludes insurance and other fees</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section reveal">
+    <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; margin-bottom: 2rem;">FREQUENTLY ASKED QUESTIONS</h3>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>What documents do I need for finance approval?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>You'll need a valid ID, recent payslips (3 months), proof of address, and banking details. Self-employed clients require additional documentation. We'll guide you through the entire process.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>How quickly can I get approved?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Most approvals happen within 24-48 hours. For pre-approved clients, it can be same-day. We work directly with banks to expedite the process without compromising on security.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Can I get finance if I have bad credit?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Yes! We work with specialist finance providers who understand credit challenges. While rates may be slightly higher, we focus on getting you approved at the best possible rate for your situation.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Do you offer trade-in options with finance?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Absolutely. Trade-in value can be used as your deposit, reducing the amount you need to finance. We'll provide a fair market valuation of your current vehicle.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>What's included in the monthly payment?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Your monthly payment covers the principal, interest, and insurance. Some packages include gap insurance and mechanical warranty. We'll provide a full breakdown before you commit.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Can I settle early without penalties?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Yes! Most finance options allow early settlement without penalties. You can pay off your loan whenever you want and save on interest charges.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section reveal">
+    <h3>Ready to Drive?</h3>
+    <p>Start your finance journey today with a quick online application.</p>
+    <a href="contact.html" class="btn btn-red">Apply for Finance ›</a>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="footer-logo">
+        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
+      </a>
+      <p class="footer-tagline">Elevating the automotive experience in Durban since 2010. Premium vehicles. Exceptional service. Every time.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" aria-label="Facebook">f</a>
+        <a href="#" class="social-btn" aria-label="Instagram">in</a>
+        <a href="#" class="social-btn" aria-label="WhatsApp">W</a>
+        <a href="#" class="social-btn" aria-label="TikTok">T</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Inventory</div>
+      <ul class="footer-links">
+        <li><a href="inventory.html">All Vehicles</a></li>
+        <li><a href="inventory.html">Sedans</a></li>
+        <li><a href="inventory.html">SUVs & Crossovers</a></li>
+        <li><a href="inventory.html">Luxury Vehicles</a></li>
+        <li><a href="inventory.html">Sports Cars</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="finance.html">Finance</a></li>
+        <li><a href="contact.html">Trade-In</a></li>
+        <li><a href="contact.html">Warranty</a></li>
+        <li><a href="contact.html">Inspection</a></li>
+        <li><a href="contact.html">Test Drive</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="index.html#about">About MAV Motors</a></li>
+        <li><a href="index.html#reviews">Testimonials</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 MAV Motors. All rights reserved. — Elevate Every Mile.</div>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">POPIA Compliance</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/shared.js"></script>
+<script>
+  // Finance calculator
+  const vehiclePrice = document.getElementById('vehiclePrice');
+  const depositAmount = document.getElementById('depositAmount');
+  const loanTerm = document.getElementById('loanTerm');
+  const interestRate = document.getElementById('interestRate');
+  const monthlyPayment = document.getElementById('monthlyPayment');
+
+  function calculatePayment() {
+    const price = parseFloat(vehiclePrice.value) || 0;
+    const deposit = parseFloat(depositAmount.value) || 0;
+    const principal = price - deposit;
+    const months = parseInt(loanTerm.value) || 60;
+    const rate = (parseFloat(interestRate.value) || 6.5) / 100 / 12;
+
+    if (principal <= 0 || months <= 0) {
+      monthlyPayment.textContent = 'R 0';
+      return;
+    }
+
+    const payment = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
+    monthlyPayment.textContent = 'R ' + Math.round(payment).toLocaleString();
+  }
+
+  vehiclePrice.addEventListener('input', calculatePayment);
+  depositAmount.addEventListener('input', calculatePayment);
+  loanTerm.addEventListener('change', calculatePayment);
+  interestRate.addEventListener('input', calculatePayment);
+
+  // FAQ toggle
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+      const answer = question.nextElementSibling;
+      const toggle = question.querySelector('.faq-toggle');
+
+      document.querySelectorAll('.faq-answer').forEach(a => {
+        if (a !== answer) {
+          a.classList.remove('open');
+          a.previousElementSibling.querySelector('.faq-toggle').textContent = '+';
+        }
+      });
+
+      answer.classList.toggle('open');
+      toggle.textContent = answer.classList.contains('open') ? '−' : '+';
+    });
+  });
+
+  calculatePayment();
+</script>
+</body>
+</html>
