@@ -34,6 +34,12 @@ const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 
 if (hamburger && mobileMenu) {
+  const closeMobileMenu = () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('open');
     mobileMenu.classList.toggle('open');
@@ -42,10 +48,16 @@ if (hamburger && mobileMenu) {
 
   document.querySelectorAll('.mobile-nav-link, .mobile-cta .btn').forEach(link => {
     link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
+      closeMobileMenu();
     });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeMobileMenu();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMobileMenu();
   });
 }
 

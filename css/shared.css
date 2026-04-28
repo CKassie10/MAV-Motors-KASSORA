@@ -63,6 +63,13 @@ body {
   cursor: none;
 }
 
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
 body,
 input,
 textarea,
@@ -155,6 +162,7 @@ body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height:
   transition: all 0.3s ease; position: relative; overflow: hidden;
   min-height: 48px;
   border-radius: 8px;
+  touch-action: manipulation;
 }
 .btn::after {
   content: ''; position: absolute; inset: 0;
@@ -233,6 +241,8 @@ nav.scrolled {
   background: rgba(0,0,0,0.98); backdrop-filter: blur(20px);
   flex-direction: column; align-items: center; justify-content: center;
   gap: 0; z-index: 999;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   transform: translateY(-20px); opacity: 0;
   transition: transform 0.4s ease, opacity 0.4s ease;
 }
@@ -294,12 +304,57 @@ footer { background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); padd
 @media (max-width: 768px) {
   body { cursor: auto; }
   .cursor, .cursor-ring { display: none; }
+  nav {
+    padding: 0 1rem;
+    height: 64px;
+  }
+  .nav-logo img {
+    height: 44px !important;
+  }
   .nav-links, .nav-cta { display: none; }
   .hamburger { display: flex; }
-  .mobile-menu { display: flex; }
+  .mobile-menu {
+    display: flex;
+    top: 64px;
+    justify-content: flex-start;
+    padding: 1rem 0 calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
   .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 0.95rem 1.5rem;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-bottom-links {
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-  /* Mobile specific styles */
+  .section-heading {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+  .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+  .mobile-menu .mobile-cta {
+    max-width: none;
+    width: calc(100% - 2rem);
+    padding: 0;
+  }
+  .footer-bottom {
+    align-items: stretch;
+  }
+  .footer-bottom-links {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }

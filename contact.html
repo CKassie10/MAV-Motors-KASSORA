@@ -188,12 +188,28 @@
   }
 
   @media (max-width: 768px) {
+    .page-hero {
+      min-height: auto;
+      padding: 6.5rem 1rem 3.5rem;
+    }
+    #contact {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
     .form-grid { grid-template-columns: 1fr; }
     .contact-item { margin-bottom: 1.5rem; }
+    .hours-grid { grid-template-columns: 1fr; }
+    .contact-socials { flex-wrap: wrap; }
   }
 
   @media (max-width: 480px) {
     .page-hero h1 { font-size: clamp(2rem, 10vw, 3rem); }
+    .contact-item {
+      gap: 0.75rem;
+    }
+    .contact-item-val {
+      word-break: break-word;
+    }
   }
 </style>
 </head>
