@@ -14,10 +14,27 @@
 
   .hero-bg {
     position: absolute; inset: 0; z-index: 0;
+    overflow: hidden;
+  }
+
+  .hero-bg::before,
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-bg::before {
+    background: url('https://ik.imagekit.io/625s6afzw/3RI2KR3RaOc2y4zbAdlJ--0--OWS4O_4x-real-esrgan-x4-plus.jpg') center 42% / cover no-repeat;
+    transform: scale(1.02);
+    filter: contrast(1.08) saturate(1.06) brightness(1.02);
+  }
+
+  .hero-bg::after {
     background:
+      linear-gradient(90deg, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.3) 42%, rgba(0,0,0,0.58) 100%),
       radial-gradient(ellipse 80% 60% at 80% 40%, rgba(204,0,0,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 70% at 10% 80%, rgba(204,0,0,0.12) 0%, transparent 50%),
-      linear-gradient(160deg, #0A0A0A 0%, #000 60%, #0D0000 100%);
+      radial-gradient(ellipse 50% 70% at 10% 80%, rgba(204,0,0,0.1) 0%, transparent 50%);
   }
 
   /* Speed lines */
@@ -231,7 +248,7 @@
 <!-- ===================== NAV ===================== -->
 <nav id="navbar">
   <a href="index.html" class="nav-logo">
-    <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:52px; width:auto; display:block;">
+    <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:70px; width:auto; max-width:none; display:block;">
   </a>
   <ul class="nav-links">
     <li><a href="inventory.html">Inventory</a></li>
