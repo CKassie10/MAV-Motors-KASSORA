@@ -211,6 +211,15 @@
       word-break: break-word;
     }
   }
+
+  @media (hover: none) {
+    .contact-social-btn:hover {
+      background: var(--dark3);
+      border-color: rgba(255,255,255,0.1);
+      color: var(--silver);
+      transform: none;
+    }
+  }
 </style>
 </head>
 <body>
@@ -330,7 +339,8 @@
         <strong>✓ Message Sent!</strong> We'll get back to you soon.
       </div>
 
-      <div class="form-grid" id="contactForm">
+      <!-- Use a real form element so mobile keyboards and submit behavior stay reliable on iOS/Android. -->
+      <form class="form-grid" id="contactForm">
         <div class="form-group">
           <label class="form-label">First Name *</label>
           <input type="text" class="form-input" name="firstName" placeholder="John" required>
@@ -366,7 +376,7 @@
         <div class="form-group full form-submit">
           <button type="submit" class="btn btn-red" id="submitBtn">Send Message ›</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </section>
@@ -376,7 +386,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <a href="index.html" class="footer-logo">
-        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
+        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" loading="lazy" decoding="async" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
       </a>
       <p class="footer-tagline">Elevating the automotive experience in Durban since 2010. Premium vehicles. Exceptional service. Every time.</p>
       <div class="footer-socials">

@@ -1,0 +1,169 @@
+{
+  "categories": [
+    {
+      "name": "City Hatchbacks",
+      "vehicles": [
+        {
+          "id": "CAR-001",
+          "category": "City Hatchbacks",
+          "make": "Kia",
+          "model": "Picanto",
+          "year": 2023,
+          "price": 219900,
+          "mileage": 18500,
+          "color": "Titanium Silver",
+          "transmission": "Manual",
+          "fuelType": "Petrol",
+          "status": "Available",
+          "imageUrl": "Car Images/kia-picanto-s-sparkling-silver.webp"
+        },
+        {
+          "id": "CAR-002",
+          "category": "City Hatchbacks",
+          "make": "Volkswagen",
+          "model": "Polo Vivo",
+          "year": 2022,
+          "price": 249900,
+          "mileage": 31200,
+          "color": "Pure White",
+          "transmission": "Manual",
+          "fuelType": "Petrol",
+          "status": "Reserved",
+          "imageUrl": "Car Images/Polo Vivo.png"
+        },
+        {
+          "id": "CAR-003",
+          "category": "City Hatchbacks",
+          "make": "Toyota",
+          "model": "Starlet",
+          "year": 2024,
+          "price": 289900,
+          "mileage": 9500,
+          "color": "Mystic Blue",
+          "transmission": "Automatic",
+          "fuelType": "Petrol",
+          "status": "Available",
+          "imageUrl": "Car Images/Toyota Starlet.jfif"
+        }
+      ]
+    },
+    {
+      "name": "Family Sedans",
+      "vehicles": [
+        {
+          "id": "CAR-004",
+          "category": "Family Sedans",
+          "make": "Toyota",
+          "model": "Corolla",
+          "year": 2021,
+          "price": 329900,
+          "mileage": 48700,
+          "color": "Glacier White",
+          "transmission": "Automatic",
+          "fuelType": "Petrol",
+          "status": "Available",
+          "imageUrl": "Car Images/Toyota-Corolla.webp"
+        },
+        {
+          "id": "CAR-005",
+          "category": "Family Sedans",
+          "make": "Suzuki",
+          "model": "Dzire",
+          "year": 2023,
+          "price": 229900,
+          "mileage": 19800,
+          "color": "Magma Grey", 
+          "transmission": "Automatic",
+          "fuelType": "Petrol",
+          "status": "Sold",
+          "imageUrl": "Car Images/Suzuki Dzire.jfif"
+        }
+      ]
+    },
+    {
+      "name": "Bakkies & Work Vehicles",
+      "vehicles": [
+        {
+          "id": "CAR-006",
+          "category": "Bakkies & Work Vehicles",
+          "make": "Toyota",
+          "model": "Hilux",
+          "year": 2022,
+          "price": 529900,
+          "mileage": 61200,
+          "color": "Super White",
+          "transmission": "Manual",
+          "fuelType": "Diesel",
+          "status": "Available",
+          "imageUrl": "Car Images/Toyota Hilux.jfif"
+        },
+        {
+          "id": "CAR-007",
+          "category": "Bakkies & Work Vehicles",
+          "make": "Ford",
+          "model": "Ranger",
+          "year": 2024,
+          "price": 689900,
+          "mileage": 14200,
+          "color": "Absolute Black",
+          "transmission": "Automatic",
+          "fuelType": "Diesel",
+          "status": "Reserved",
+          "imageUrl": "Car Images/Ford Ranger.jfif"
+        }
+      ]
+    },
+    {
+      "name": "7-Seater SUVs",
+      "vehicles": [
+        {
+          "id": "CAR-008",
+          "category": "7-Seater SUVs",
+          "make": "Toyota",
+          "model": "Fortuner",
+          "year": 2023,
+          "price": 779900,
+          "mileage": 26800,
+          "color": "Pearl White",
+          "transmission": "Automatic",
+          "fuelType": "Diesel",
+          "status": "Available",
+          "imageUrl": "Car Images/Toyota Fortuner.jfif"
+        },
+        {
+          "id": "CAR-009",
+          "category": "7-Seater SUVs",
+          "make": "Ford",
+          "model": "Everest",
+          "year": 2024,
+          "price": 899900,
+          "mileage": 11800,
+          "color": "Meteor Grey",
+          "transmission": "Automatic",
+          "fuelType": "Diesel",
+          "status": "Available",
+          "imageUrl": "Car Images/Ford Everest.jfif"
+        }
+      ]
+    },
+    {
+      "name": "Luxury & Premium",
+      "vehicles": [
+        {
+          "id": "CAR-010",
+          "category": "Luxury & Premium",
+          "make": "Mercedes-Benz",
+          "model": "S-Class",
+          "year": 2022,
+          "price": 1799900,
+          "mileage": 22400,
+          "color": "Obsidian Black",
+          "transmission": "Automatic",
+          "fuelType": "Petrol",
+          "status": "Sold",
+          "imageUrl": "Car Images/Mercedes S-Class.jfif"
+        }
+      ]
+    }
+  ]
+}

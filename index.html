@@ -186,6 +186,11 @@
   }
 
   @media (max-width: 768px) {
+    /* Serve a lighter hero image on phones to cut mobile bandwidth without changing the design. */
+    .hero-bg::before {
+      background-image: url('https://ik.imagekit.io/625s6afzw/3RI2KR3RaOc2y4zbAdlJ--0--OWS4O_4x-real-esrgan-x4-plus.jpg?tr=w-900');
+      background-position: center 50%;
+    }
     #hero {
       min-height: auto;
       padding: 7rem 1rem 5rem;
@@ -235,6 +240,13 @@
     }
     .testimonial-card {
       min-width: 88vw;
+    }
+  }
+
+  @media (hover: none) {
+    .testimonial-card:hover {
+      border-color: rgba(255,255,255,0.06);
+      transform: none;
     }
   }
 </style>
@@ -402,7 +414,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <a href="index.html" class="footer-logo">
-        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
+    <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" loading="lazy" decoding="async" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
       </a>
       <p class="footer-tagline">Elevating the automotive experience in Durban since 2010. Premium vehicles. Exceptional service. Every time.</p>
       <div class="footer-socials">

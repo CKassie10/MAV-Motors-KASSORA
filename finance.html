@@ -283,6 +283,70 @@
     }
   }
 
+  @media (max-width: 640px) {
+    /* Stack the rates table into labeled cards on phones so the finance data stays readable without sideways scrolling. */
+    .finance-options {
+      grid-template-columns: 1fr;
+      margin: 2rem 0;
+    }
+
+    .rates-section {
+      overflow: visible;
+    }
+
+    .rates-table,
+    .rates-table thead,
+    .rates-table tbody,
+    .rates-table tr,
+    .rates-table th,
+    .rates-table td {
+      display: block;
+      width: 100%;
+    }
+
+    .rates-table {
+      border: none;
+      background: transparent;
+      min-width: 0;
+    }
+
+    .rates-table thead {
+      display: none;
+    }
+
+    .rates-table tr {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 1rem;
+      padding: 0.75rem 0;
+    }
+
+    .rates-table td {
+      border-bottom: none;
+      padding: 0.55rem 1rem 0.55rem 8.5rem;
+      position: relative;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      word-break: break-word;
+    }
+
+    .rates-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--silver-dark);
+    }
+  }
+
   @media (max-width: 480px) {
     .page-hero h1 { font-size: clamp(2rem, 10vw, 3rem); }
     .content-heading-lg,
@@ -293,6 +357,13 @@
     .calculator-section,
     .cta-section {
       padding: 1.25rem;
+    }
+  }
+
+  @media (hover: none) {
+    .finance-option:hover {
+      border-color: rgba(255,255,255,0.06);
+      transform: none;
     }
   }
 </style>
@@ -383,34 +454,34 @@
       </thead>
       <tbody>
         <tr>
-          <td>Pre-Owned Vehicles</td>
-          <td>5.9%</td>
-          <td>36 - 72 months</td>
-          <td><span class="rate-badge">Available</span></td>
+          <td data-label="Vehicle Type">Pre-Owned Vehicles</td>
+          <td data-label="From (APR)">5.9%</td>
+          <td data-label="Term">36 - 72 months</td>
+          <td data-label="Status"><span class="rate-badge">Available</span></td>
         </tr>
         <tr>
-          <td>New Vehicles</td>
-          <td>4.9%</td>
-          <td>36 - 84 months</td>
-          <td><span class="rate-badge">Available</span></td>
+          <td data-label="Vehicle Type">New Vehicles</td>
+          <td data-label="From (APR)">4.9%</td>
+          <td data-label="Term">36 - 84 months</td>
+          <td data-label="Status"><span class="rate-badge">Available</span></td>
         </tr>
         <tr>
-          <td>Luxury Vehicles</td>
-          <td>6.5%</td>
-          <td>36 - 60 months</td>
-          <td><span class="rate-badge">Available</span></td>
+          <td data-label="Vehicle Type">Luxury Vehicles</td>
+          <td data-label="From (APR)">6.5%</td>
+          <td data-label="Term">36 - 60 months</td>
+          <td data-label="Status"><span class="rate-badge">Available</span></td>
         </tr>
         <tr>
-          <td>Trade-In Program</td>
-          <td>Special Rates</td>
-          <td>Flexible</td>
-          <td><span class="rate-badge">Approved</span></td>
+          <td data-label="Vehicle Type">Trade-In Program</td>
+          <td data-label="From (APR)">Special Rates</td>
+          <td data-label="Term">Flexible</td>
+          <td data-label="Status"><span class="rate-badge">Approved</span></td>
         </tr>
         <tr>
-          <td>Bad Credit Options</td>
-          <td>8.9%</td>
-          <td>36 - 60 months</td>
-          <td><span class="rate-badge">Available</span></td>
+          <td data-label="Vehicle Type">Bad Credit Options</td>
+          <td data-label="From (APR)">8.9%</td>
+          <td data-label="Term">36 - 60 months</td>
+          <td data-label="Status"><span class="rate-badge">Available</span></td>
         </tr>
       </tbody>
     </table>
@@ -530,7 +601,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <a href="index.html" class="footer-logo">
-        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
+        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" loading="lazy" decoding="async" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
       </a>
       <p class="footer-tagline">Elevating the automotive experience in Durban since 2010. Premium vehicles. Exceptional service. Every time.</p>
       <div class="footer-socials">

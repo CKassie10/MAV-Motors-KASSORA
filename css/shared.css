@@ -63,11 +63,32 @@ body {
   cursor: none;
 }
 
+a,
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+a[href],
+button,
+label[for],
+summary,
+[role="button"] {
+  cursor: pointer;
+}
+
 img,
 svg,
 video {
   max-width: 100%;
   height: auto;
+}
+
+iframe {
+  max-width: 100%;
+  border: 0;
 }
 
 body,
@@ -78,6 +99,12 @@ button {
   font-family: inherit;
   font-size: 1rem;
   line-height: inherit;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+button {
+  min-height: 44px;
 }
 
 button,
@@ -207,6 +234,9 @@ nav.scrolled {
 
 .nav-links { display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem); list-style: none; }
 .nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-family: var(--font-ui); font-size: 0.9rem;
   font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--silver); text-decoration: none;
@@ -271,7 +301,7 @@ footer { background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); padd
 .footer-tagline { font-size: 0.85rem; color: var(--silver-dark); line-height: 1.6; max-width: 240px; }
 .footer-socials { display: flex; gap: 10px; margin-top: 1.5rem; }
 .social-btn {
-  width: 40px; height: 40px; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1);
+  width: 44px; height: 44px; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1);
   display: flex; align-items: center; justify-content: center; text-decoration: none;
   font-size: 0.9rem; color: var(--silver); transition: all 0.25s;
 }
@@ -315,7 +345,7 @@ footer { background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); padd
   .hamburger { display: flex; }
   .mobile-menu {
     display: flex;
-    top: 64px;
+    top: 70px;
     justify-content: flex-start;
     padding: 1rem 0 calc(1.5rem + env(safe-area-inset-bottom, 0px));
   }
@@ -333,6 +363,37 @@ footer { background: var(--dark2); border-top: 1px solid rgba(204,0,0,0.3); padd
   }
   .footer-bottom-links {
     gap: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  nav {
+    padding: 0 1rem;
+  }
+  .nav-logo img {
+    height: 50px !important;
+  }
+  .mobile-menu a {
+    font-size: 1.1rem;
+    padding: 0.9rem 1rem;
+  }
+  .section-label {
+    letter-spacing: 0.2em;
+  }
+}
+
+@media (hover: none) {
+  .btn-red:hover,
+  .btn-outline:hover,
+  .btn-ghost:hover,
+  .social-btn:hover {
+    transform: none;
+    box-shadow: none;
+    filter: none;
+  }
+
+  .btn:hover::after {
+    transform: translateX(-100%);
   }
 }
 

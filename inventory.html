@@ -3,117 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inventory — MAV Motors</title>
+<title>Inventory - MAV Motors</title>
 <link rel="stylesheet" href="css/shared.css">
 <style>
   /* ===================== PAGE HERO ===================== */
-  .page-hero { min-height: 50vh; background: linear-gradient(135deg, #1a0000, #CC0000 40%, #0a0a0a 100%); display: flex; align-items: center; justify-content: center; padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem); text-align: center; position: relative; overflow: hidden; }
+  .page-hero { min-height: 50vh; background: linear-gradient(135deg, #1a0000, #cc0000 40%, #0a0a0a 100%); display: flex; align-items: center; justify-content: center; padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem); text-align: center; position: relative; overflow: hidden; }
   .page-hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(0,0,0,0.06) 30px, rgba(0,0,0,0.06) 60px); }
   .page-hero-content { position: relative; z-index: 1; max-width: 800px; }
   .page-hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; letter-spacing: 0.02em; margin-bottom: 1rem; }
   .page-hero p { font-size: clamp(0.95rem, 2vw, 1.1rem); color: rgba(255,255,255,0.8); font-weight: 300; }
- 
+
   /* ===================== INVENTORY SECTION ===================== */
   #inventory { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem); background: var(--dark); }
-  .section-header { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
-  .section-header.centered { text-align: center; }
-  .section-header.centered .section-label { justify-content: center; }
-  .section-header.centered .section-label::before { display: none; }
- 
   .inventory-controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 2rem; }
   .search-box { flex: 1; min-width: 200px; position: relative; }
   .search-box input { width: 100%; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 16px; font-size: 1rem; border-radius: 0; transition: border-color 0.25s; outline: none; }
   .search-box input:focus { border-color: var(--red); box-shadow: 0 0 0 1px rgba(204,0,0,0.3); }
-  .sort-select { background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 16px; font-size: 1rem; cursor: pointer; -webkit-appearance: none; appearance: none; transition: border-color 0.25s; outline: none; min-width: 150px; }
-  .sort-select:focus { border-color: var(--red); box-shadow: 0 0 0 1px rgba(204,0,0,0.3); }
-  .sort-select option { background: var(--dark3); color: var(--white); }
- 
+  .sort-select,
+  .status-select { background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--white); padding: 12px 16px; font-size: 1rem; cursor: pointer; -webkit-appearance: none; appearance: none; transition: border-color 0.25s; outline: none; min-width: 150px; }
+  .sort-select:focus,
+  .status-select:focus { border-color: var(--red); box-shadow: 0 0 0 1px rgba(204,0,0,0.3); }
+  .sort-select option,
+  .status-select option { background: var(--dark3); color: var(--white); }
+
   .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 2rem 0; }
   .filter-tab { padding: 8px 20px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--silver); cursor: pointer; transition: all 0.25s; }
   .filter-tab.active, .filter-tab:hover { background: var(--red); border-color: var(--red); color: var(--white); }
- 
-  .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2vw, 1.5rem); margin-bottom: 3rem; }
- 
+
+  .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2vw, 1.5rem); margin-bottom: 3rem; align-items: start; }
+
   .car-card { background: var(--dark3); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; position: relative; transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease; cursor: pointer; }
   .car-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(204,0,0,0.4); border-color: rgba(204,0,0,0.4); }
- 
-  .car-badge { position: absolute; top: 12px; left: 12px; z-index: 2; background: var(--red); color: var(--white); font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
- 
-  .car-img-placeholder { width: 100%; height: 200px; background: linear-gradient(135deg, #1a1a1a 0%, #111 50%, #0d0000 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-  .car-img-placeholder::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(204,0,0,0.02) 20px, rgba(204,0,0,0.02) 40px); }
-  .car-img-wrap { width: 100%; height: 200px; overflow: hidden; position: relative; }
-  .car-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-  .car-card:hover .car-img-wrap img { transform: scale(1.05); }
-  .car-silhouette { width: 80%; opacity: 0.15; }
- 
+
+  .car-status { position: absolute; top: 12px; left: 12px; z-index: 2; color: var(--white); font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; }
+  .status-available { background: #1f9d55; }
+  .status-reserved { background: #dd6b20; }
+  .status-sold { background: #c53030; }
+
+  .car-img-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    min-height: clamp(260px, 28vw, 340px);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .car-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+    padding: 1rem;
+    transition: transform 0.4s ease;
+  }
+  .car-card:hover .car-img-wrap img { transform: scale(1.02); }
+
   .car-body { padding: clamp(1rem, 2vw, 1.25rem); }
+  .car-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
   .car-make { font-size: 0.7rem; color: var(--red); letter-spacing: 0.2em; text-transform: uppercase; font-family: var(--font-ui); font-weight: 600; }
   .car-model { font-family: var(--font-heading); font-size: clamp(1.3rem, 2.5vw, 1.6rem); letter-spacing: 0.05em; margin: 2px 0 8px; }
+  .car-id { font-size: 0.72rem; color: var(--silver-dark); font-family: var(--font-ui); letter-spacing: 0.12em; white-space: nowrap; }
+  .car-category { margin-bottom: 10px; color: var(--silver-dark); font-size: 0.8rem; line-height: 1.5; }
   .car-specs { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
   .car-spec { font-size: 0.75rem; color: var(--silver-dark); font-family: var(--font-ui); display: flex; align-items: center; gap: 4px; }
   .car-spec::before { content: '◆'; font-size: 0.4rem; color: var(--red); }
+  .car-meta { margin-bottom: 12px; font-size: 0.78rem; color: var(--silver); font-family: var(--font-ui); letter-spacing: 0.06em; text-transform: uppercase; }
   .car-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
   .car-price { font-family: var(--font-heading); font-size: clamp(1.3rem, 2.5vw, 1.6rem); color: var(--red); letter-spacing: 0.03em; }
   .car-price-sub { font-size: 0.65rem; color: var(--silver-dark); letter-spacing: 0.1em; }
   .car-btn { padding: 8px 18px; font-size: 0.75rem; min-height: 40px; }
- 
+
   .pagination { display: flex; justify-content: center; gap: 0.5rem; margin: 3rem 0; }
   .pagination-btn { padding: 10px 14px; background: var(--dark3); border: 1px solid rgba(255,255,255,0.1); color: var(--silver); font-family: var(--font-ui); cursor: pointer; transition: all 0.25s; }
   .pagination-btn:hover, .pagination-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
- 
+
   .inventory-cta { text-align: center; margin-top: 2rem; }
   .empty-state { text-align: center; padding: 3rem; color: var(--silver-dark); }
- 
+
   /* ===================== RESPONSIVE ===================== */
   @media (max-width: 1024px) {
     .inventory-grid { grid-template-columns: repeat(2, 1fr); }
     .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .car-img-wrap { min-height: 300px; }
   }
+
   @media (max-width: 768px) {
     .page-hero {
       min-height: auto;
       padding: 6.5rem 1rem 3.5rem;
     }
+
     #inventory {
       padding-left: 1rem;
       padding-right: 1rem;
     }
+
     .inventory-controls { flex-direction: column; }
     .search-box { width: 100%; min-width: 0; }
-    .sort-select { width: 100%; }
+    .sort-select, .status-select { width: 100%; }
     .filter-tabs { gap: 0.4rem; }
     .filter-tab { padding: 7px 14px; font-size: 0.8rem; }
     .inventory-grid { grid-template-columns: 1fr; }
     .footer-top { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+    .car-img-wrap {
+      aspect-ratio: 16 / 10;
+      min-height: 280px;
+    }
+
     .car-footer {
       flex-direction: column;
       align-items: flex-start;
       gap: 0.85rem;
     }
+
     .car-btn {
       width: 100%;
       justify-content: center;
     }
   }
+
   @media (max-width: 480px) {
     .page-hero h1 { font-size: clamp(2rem, 10vw, 3rem); }
     .filter-tab { padding: 6px 12px; font-size: 0.75rem; }
+    .car-img-wrap {
+      min-height: 240px;
+    }
+    .car-img-wrap img { padding: 0.75rem; }
+
     .pagination {
       flex-wrap: wrap;
     }
+
     .pagination-btn {
       min-width: 44px;
+    }
+  }
+
+  @media (hover: none) {
+    .car-card:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(255,255,255,0.06);
+    }
+
+    .car-card:hover .car-img-wrap img {
+      transform: none;
     }
   }
 </style>
 </head>
 <body>
- 
+
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
- 
+
 <!-- ===================== NAV ===================== -->
 <nav id="navbar">
   <a href="index.html" class="nav-logo">
@@ -133,7 +183,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
- 
+
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="inventory.html" class="mobile-nav-link">Inventory</a>
@@ -145,7 +195,7 @@
     <a href="contact.html" class="btn btn-red">Book a Test Drive</a>
   </div>
 </div>
- 
+
 <!-- ===================== PAGE HERO ===================== -->
 <div class="page-hero">
   <div class="page-hero-content">
@@ -153,13 +203,12 @@
     <p>Premium pre-owned and new vehicles. Find your perfect match today.</p>
   </div>
 </div>
- 
+
 <!-- ===================== INVENTORY SECTION ===================== -->
 <section id="inventory">
-  <!-- SEARCH & FILTER -->
   <div class="inventory-controls">
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search by make, model, or year...">
+      <input type="text" id="searchInput" placeholder="Search by make or model...">
     </div>
     <select class="sort-select" id="sortSelect">
       <option value="">Sort By</option>
@@ -168,47 +217,43 @@
       <option value="mileage-low">Mileage: Low to High</option>
       <option value="newest">Newest First</option>
     </select>
+    <select class="status-select" id="statusSelect">
+      <option value="all">All Statuses</option>
+      <option value="Available">Available</option>
+      <option value="Reserved">Reserved</option>
+      <option value="Sold">Sold</option>
+    </select>
   </div>
- 
-  <!-- FILTER TABS -->
+
   <div class="filter-tabs" id="filterTabs">
     <button class="filter-tab active" data-filter="all">All Vehicles</button>
-    <button class="filter-tab" data-filter="sedan">Sedans</button>
-    <button class="filter-tab" data-filter="suv">SUVs</button>
-    <button class="filter-tab" data-filter="luxury">Luxury</button>
-    <button class="filter-tab" data-filter="sports">Sports</button>
-    <button class="filter-tab" data-filter="bakkie">Bakkies</button>
   </div>
- 
-  <!-- INVENTORY GRID -->
+
   <div class="inventory-grid" id="inventoryGrid"></div>
- 
-  <!-- EMPTY STATE -->
+
   <div class="empty-state" id="emptyState" style="display:none;">
     <p>No vehicles match your search criteria. Try adjusting your filters.</p>
   </div>
- 
-  <!-- PAGINATION -->
+
   <div class="pagination" id="pagination"></div>
- 
-  <!-- CTA -->
+
   <div class="inventory-cta reveal">
     <p style="margin-bottom: 1rem; color: var(--silver-dark);">Can't find what you're looking for?</p>
-    <a href="contact.html" class="btn btn-red">Request a Vehicle ›</a>
+    <a href="contact.html" class="btn btn-red">Request a Vehicle</a>
   </div>
 </section>
- 
+
 <!-- ===================== FOOTER ===================== -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
       <a href="index.html" class="footer-logo">
-        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
+        <img src="https://ik.imagekit.io/625s6afzw/Logo%20mage(MAV).jpeg" alt="MAV Motors" loading="lazy" decoding="async" style="height:64px; width:auto; display:block; margin-bottom:1rem;">
       </a>
       <p class="footer-tagline">Elevating the automotive experience in Durban since 2010. Premium vehicles. Exceptional service. Every time.</p>
       <div class="footer-socials">
         <a href="#" class="social-btn" aria-label="Facebook">f</a>
-        <a href="#" class="social-btn" aria-label="Instagram">📷</a>
+        <a href="#" class="social-btn" aria-label="Instagram">I</a>
         <a href="https://wa.me/27810000000" class="social-btn" aria-label="WhatsApp">W</a>
         <a href="#" class="social-btn" aria-label="TikTok">T</a>
       </div>
@@ -217,10 +262,10 @@
       <div class="footer-col-title">Inventory</div>
       <ul class="footer-links">
         <li><a href="inventory.html">All Vehicles</a></li>
-        <li><a href="inventory.html">Sedans</a></li>
-        <li><a href="inventory.html">SUVs & Crossovers</a></li>
-        <li><a href="inventory.html">Luxury Vehicles</a></li>
-        <li><a href="inventory.html">Sports Cars</a></li>
+        <li><a href="inventory.html">City Hatchbacks</a></li>
+        <li><a href="inventory.html">Family Sedans</a></li>
+        <li><a href="inventory.html">7-Seater SUVs</a></li>
+        <li><a href="inventory.html">Luxury &amp; Premium</a></li>
       </ul>
     </div>
     <div>
@@ -243,7 +288,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2025 MAV Motors. All rights reserved. — Elevate Every Mile.</div>
+    <div class="footer-copy">&copy; 2025 MAV Motors. All rights reserved. - Elevate Every Mile.</div>
     <div class="footer-bottom-links">
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Use</a>
@@ -251,182 +296,8 @@
     </div>
   </div>
 </footer>
- 
-<script>
-  // ── CURSOR ──
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
-  function animRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); }
-  animRing();
- 
-  // ── NAVBAR SCROLL ──
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 60); });
- 
-  // ── HAMBURGER ──
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const closeMobileMenu = () => {
-    hamburger.classList.remove('open');
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  };
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-  });
-  document.querySelectorAll('.mobile-nav-link, .mobile-cta .btn').forEach(link => {
-    link.addEventListener('click', () => {
-      closeMobileMenu();
-    });
-  });
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) closeMobileMenu();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeMobileMenu();
-  });
- 
-  // ── INTERSECTION OBSERVER ──
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); } });
-  }, { threshold: 0.1 });
- 
-  // ── VEHICLE DATA ──
-  // Replace the image URLs below with real photos of the actual cars.
-  // To add a photo: upload the image and set "image: 'your-photo-url.jpg'"
-  // Leave image as null to show the default silhouette placeholder.
-  const vehicles = [
-    { id: 1, make: 'BMW', model: '3 Series 320i', year: 2022, km: 28000, fuel: 'Petrol', transmission: 'Auto', price: 489900, category: 'sedan', badge: 'HOT DEAL', image: null },
-    { id: 2, make: 'Mercedes-Benz', model: 'C-Class C200', year: 2023, km: 12500, fuel: 'Petrol', transmission: 'Auto', price: 729000, category: 'sedan', badge: 'NEW IN', image: null },
-    { id: 3, make: 'Toyota', model: 'Fortuner 2.8 GD-6', year: 2021, km: 45000, fuel: 'Diesel', transmission: '4x4', price: 695000, category: 'suv', badge: 'CERTIFIED', image: null },
-    { id: 4, make: 'Audi', model: 'A4 2.0 TDI S-Line', year: 2022, km: 33000, fuel: 'Diesel', transmission: 'DSG', price: 559000, category: 'sedan', badge: '', image: null },
-    { id: 5, make: 'Volkswagen', model: 'Tiguan 2.0 TSI R-Line', year: 2023, km: 8200, fuel: 'Petrol', transmission: 'DSG', price: 618000, category: 'suv', badge: 'LOW KM', image: null },
-    { id: 6, make: 'Porsche', model: 'Cayenne S AWD', year: 2021, km: 29000, fuel: 'Petrol', transmission: 'PDK', price: 1290000, category: 'luxury', badge: 'LUXURY', image: null },
-    { id: 7, make: 'Ford', model: 'Ranger 2.0 BiTurbo', year: 2022, km: 22500, fuel: 'Diesel', transmission: 'Auto', price: 525000, category: 'bakkie', badge: '', image: null },
-    { id: 8, make: 'Lamborghini', model: 'Huracán EVO', year: 2020, km: 15000, fuel: 'Petrol', transmission: 'Auto', price: 2850000, category: 'sports', badge: 'ULTRA RARE', image: null },
-    { id: 9, make: 'Range Rover', model: 'Evoque P250 SE', year: 2023, km: 5800, fuel: 'Petrol', transmission: 'Auto', price: 889000, category: 'luxury', badge: 'NEW IN', image: null },
-  ];
- 
-  let currentFilter = 'all';
-  let currentSort = '';
-  let currentPage = 1;
-  const itemsPerPage = 6;
- 
-  const inventoryGrid = document.getElementById('inventoryGrid');
-  const emptyState = document.getElementById('emptyState');
-  const filterTabs = document.querySelectorAll('.filter-tab');
-  const searchInput = document.getElementById('searchInput');
-  const sortSelect = document.getElementById('sortSelect');
-  const pagination = document.getElementById('pagination');
- 
-  const silhouetteSVG = `<svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10,55 Q30,55 50,45 Q70,35 100,30 Q130,25 150,35 Q165,42 175,50 L185,50 Q190,50 190,55 L190,60 Q170,65 160,60 Q155,70 145,70 Q135,70 130,60 L70,60 Q65,70 55,70 Q45,70 40,60 Q20,60 10,58 Z"/>
-  </svg>`;
- 
-  function renderCars(cars) {
-    inventoryGrid.innerHTML = '';
- 
-    if (cars.length === 0) {
-      emptyState.style.display = 'block';
-      pagination.innerHTML = '';
-      return;
-    }
- 
-    emptyState.style.display = 'none';
- 
-    const start = (currentPage - 1) * itemsPerPage;
-    const paginatedCars = cars.slice(start, start + itemsPerPage);
- 
-    paginatedCars.forEach((car, index) => {
-      const card = document.createElement('div');
-      card.className = `car-card reveal${index > 0 ? ` reveal-delay-${Math.min(index, 5)}` : ''}`;
- 
-      const imgHTML = car.image
-        ? `<div class="car-img-wrap"><img src="${car.image}" alt="${car.year} ${car.make} ${car.model}" loading="lazy"></div>`
-        : `<div class="car-img-placeholder">${silhouetteSVG}</div>`;
- 
-      card.innerHTML = `
-        ${car.badge ? `<div class="car-badge">${car.badge}</div>` : ''}
-        ${imgHTML}
-        <div class="car-body">
-          <div class="car-make">${car.make}</div>
-          <div class="car-model"><span class="chrome-text">${car.model}</span></div>
-          <div class="car-specs">
-            <span class="car-spec">${car.year}</span>
-            <span class="car-spec">${car.km.toLocaleString()} km</span>
-            <span class="car-spec">${car.fuel}</span>
-            <span class="car-spec">${car.transmission}</span>
-          </div>
-          <div class="car-footer">
-            <div>
-              <div class="car-price">R ${car.price.toLocaleString()}</div>
-              <div class="car-price-sub">or R ${Math.round(car.price / 72).toLocaleString()}/pm</div>
-            </div>
-            <a href="contact.html" class="btn btn-ghost car-btn">Enquire ›</a>
-          </div>
-        </div>
-      `;
-      inventoryGrid.appendChild(card);
-    });
- 
-    // Observe new cards for reveal animation
-    inventoryGrid.querySelectorAll('.reveal').forEach(el => io.observe(el));
- 
-    renderPagination(cars.length);
-  }
- 
-  function renderPagination(total) {
-    pagination.innerHTML = '';
-    const totalPages = Math.ceil(total / itemsPerPage);
-    if (totalPages <= 1) return;
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement('button');
-      btn.className = `pagination-btn${i === currentPage ? ' active' : ''}`;
-      btn.textContent = i;
-      btn.addEventListener('click', () => {
-        currentPage = i;
-        filterAndSort();
-        window.scrollTo({ top: inventoryGrid.offsetTop - 100, behavior: 'smooth' });
-      });
-      pagination.appendChild(btn);
-    }
-  }
- 
-  function filterAndSort() {
-    let filtered = vehicles;
-    if (currentFilter !== 'all') filtered = filtered.filter(c => c.category === currentFilter);
-    const term = searchInput.value.toLowerCase();
-    if (term) filtered = filtered.filter(c => c.make.toLowerCase().includes(term) || c.model.toLowerCase().includes(term) || c.year.toString().includes(term));
-    if (currentSort === 'price-low') filtered.sort((a, b) => a.price - b.price);
-    else if (currentSort === 'price-high') filtered.sort((a, b) => b.price - a.price);
-    else if (currentSort === 'mileage-low') filtered.sort((a, b) => a.km - b.km);
-    else if (currentSort === 'newest') filtered.sort((a, b) => b.year - a.year);
-    currentPage = 1;
-    renderCars(filtered);
-  }
- 
-  filterTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      filterTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentFilter = tab.getAttribute('data-filter');
-      filterAndSort();
-    });
-  });
- 
-  searchInput.addEventListener('input', filterAndSort);
-  sortSelect.addEventListener('change', e => { currentSort = e.target.value; filterAndSort(); });
- 
-  // Observe static reveal elements
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
- 
-  // Initial render
-  renderCars(vehicles);
-</script>
+
+<script src="js/shared.js"></script>
+<script type="module" src="js/inventory-page.js"></script>
 </body>
 </html>
- 
